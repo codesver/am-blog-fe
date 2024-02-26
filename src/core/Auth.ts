@@ -33,11 +33,15 @@ const Auth = (() => {
         const user = decode(userSession) as User;
         if (new Date().getTime() < user.expire) {
           return user;
+        } else {
+          logout();
+          return undefined;
         }
       }
-    } catch (err) {}
-    logout();
-    return undefined;
+    } catch (err) {
+      logout();
+      return undefined;
+    }
   };
 
   const authenticated = () => {
