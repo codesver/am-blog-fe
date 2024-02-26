@@ -21,7 +21,7 @@ const decode = (cipher: string) =>
     CryptoJS.AES.decrypt(cipher, "SECRET_KEY").toString(CryptoJS.enc.Utf8)
   );
 
-const Auth = () => {
+const Auth = (() => {
   const login = (user: User) => sessionStorage.setItem("user", encode(user));
 
   const logout = () => sessionStorage.removeItem("user");
@@ -57,6 +57,6 @@ const Auth = () => {
     authenticated,
     authorized,
   };
-};
+})();
 
 export default Auth;
