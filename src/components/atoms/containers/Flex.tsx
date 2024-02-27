@@ -39,12 +39,12 @@ export enum AlignContent {
 }
 
 interface FlexProps {
-  children: ReactElement;
-  direction: FlexDirection;
-  wrap: FlexWrap;
-  justify: JustifyContent;
-  align: AlignItems;
-  aligns: AlignContent;
+  children: ReactElement[];
+  direction?: FlexDirection;
+  wrap?: FlexWrap;
+  justify?: JustifyContent;
+  align?: AlignItems;
+  aligns?: AlignContent;
 }
 
 const Flex = ({
@@ -63,7 +63,7 @@ const Flex = ({
       align={align}
       aligns={aligns}
     >
-      {children};
+      {children}
     </FlexContainer>
   );
 };
