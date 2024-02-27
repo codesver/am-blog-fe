@@ -1,9 +1,8 @@
 import CryptoJS from "crypto-js";
 
 export enum Role {
-  ADMIN = "ROLE_ADMIN",
-  USER = "ROLE_USER",
-  GEUST = "ROLE_GUEST",
+  ADMIN = 0,
+  USER = 1,
 }
 
 export interface User {
@@ -13,13 +12,9 @@ export interface User {
   expire: number;
 }
 
-const encode = (plain: object) =>
-  CryptoJS.AES.encrypt(JSON.stringify(plain), "SECRET_KEY").toString();
+const encode = (plain: object) => CryptoJS.AES.encrypt(JSON.stringify(plain), "SECRET_KEY").toString();
 
-const decode = (cipher: string) =>
-  JSON.parse(
-    CryptoJS.AES.decrypt(cipher, "SECRET_KEY").toString(CryptoJS.enc.Utf8)
-  );
+const decode = (cipher: string) => JSON.parse(CryptoJS.AES.decrypt(cipher, "SECRET_KEY").toString(CryptoJS.enc.Utf8));
 
 const Auth = (() => {
   const login = (user: User) => sessionStorage.setItem("user", encode(user));
