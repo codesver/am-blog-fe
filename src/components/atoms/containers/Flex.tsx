@@ -39,7 +39,7 @@ export enum AlignContent {
 }
 
 interface FlexProps {
-  children: ReactElement[];
+  children?: ReactElement | ReactElement[];
   direction?: FlexDirection;
   wrap?: FlexWrap;
   justify?: JustifyContent;
