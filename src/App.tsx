@@ -1,16 +1,27 @@
-import React from "react";
-import { BrowserRouter } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
-import AuthRouter from "./router/AuthRouter";
-import BaseRouter from "./router/BaseRouter";
+import TestPage from "./pages/TestPage";
+import Auth, { Role } from "./core/Auth";
+import { ThemeType, useTheme } from "./resources/Theme";
 
 import "./App.css";
 
 const App = () => {
+  const onChange = useTheme((state) => state.onChange);
+
+  useEffect(() => {
+    const theme: ThemeType = ThemeType[localStorage.getItem("theme") as ThemeType] || ThemeType.LIGHT;
+    onChange(theme);
+    localStorage.setItem("theme", theme);
+  }, []);
+
   return (
     <BrowserRouter>
-      <BaseRouter />
-      <AuthRouter />
+      <Routes>
+        <Route path="/test" element={<TestPage />} />
+        <Route path="/admin" element={Auth.authorized(Role.ADMIN) ? <></> : <Navigate to={"/login"} />} />
+      </Routes>
     </BrowserRouter>
   );
 };
