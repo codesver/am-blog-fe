@@ -1,6 +1,6 @@
 import React, { HTMLAttributes } from "react";
 import styled from "styled-components";
-import { Theme, useTheme } from "../../../App";
+import { Theme, useTheme } from "../../../resources/Theme";
 
 interface PageProps extends HTMLAttributes<HTMLDivElement> {}
 
@@ -16,9 +16,11 @@ const Page = ({ className, children, ...props }: PageProps) => {
 
 export default React.memo(Page);
 
-const PageContainer = styled.div<{
+interface PageContainerProps {
   $theme: Theme;
-}>`
+}
+
+const PageContainer = styled.div<PageContainerProps>`
   width: 100%;
   height: 100%;
   padding: 25px;
@@ -26,12 +28,5 @@ const PageContainer = styled.div<{
   display: flex;
   flex-direction: column;
 
-  background-color: ${({ $theme }) => {
-    switch ($theme) {
-      case Theme.LIGHT:
-        return "#FFFFFF";
-      case Theme.DARK:
-        return "#191919";
-    }
-  }};
+  background-color: ${({ $theme }) => $theme.colors.base};
 `;

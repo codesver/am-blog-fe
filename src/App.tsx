@@ -1,39 +1,22 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { create } from "zustand";
 
 import TestPage from "./pages/TestPage";
 import Auth, { Role } from "./core/Auth";
+import { ThemeType, useTheme } from "./resources/Theme";
 
 import "./App.css";
-
-export enum Theme {
-  LIGHT = "LIGHT", // #FFFFFF
-  DARK = "DARK", // #191919
-}
-
-interface ThemeState {
-  theme: Theme;
-  onSwitch: () => void;
-  onChange: (theme: Theme) => void;
-}
-
-export const useTheme = create<ThemeState>((set) => ({
-  theme: Theme.LIGHT,
-  onSwitch: () => set((state) => ({ theme: state.theme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT })),
-  onChange: (theme: Theme) => set({ theme }),
-}));
 
 const App = () => {
   const onChange = useTheme((state) => state.onChange);
 
   useEffect(() => {
-    let theme: Theme = Theme.LIGHT;
+    let theme: ThemeType = ThemeType.LIGHT;
 
     try {
-      theme = Theme[localStorage.getItem("theme") as Theme];
+      theme = ThemeType[localStorage.getItem("theme") as ThemeType];
     } catch (err) {
-      theme = Theme.LIGHT;
+      theme = ThemeType.LIGHT;
     }
 
     onChange(theme);
