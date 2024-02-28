@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-interface InputProps {}
+interface InputProps {
+  
+}
 
 const Input = ({}: InputProps) => {
   return <InputContainer />;
