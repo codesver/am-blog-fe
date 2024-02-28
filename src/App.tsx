@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { create } from "zustand";
 
-import AuthRouter from "./router/AuthRouter";
-import BaseRouter from "./router/BaseRouter";
+import TestPage from "./pages/TestPage";
+import Auth, { Role } from "./core/Auth";
 
 import "./App.css";
-import { create } from "zustand";
 
 export enum Theme {
   LIGHT = "LIGHT", // #FFFFFF
@@ -42,8 +42,10 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <BaseRouter />
-      <AuthRouter />
+      <Routes>
+        <Route path="/test" element={<TestPage />} />
+        <Route path="/admin" element={Auth.authorized(Role.ADMIN) ? <></> : <Navigate to={"/login"} />} />
+      </Routes>
     </BrowserRouter>
   );
 };
