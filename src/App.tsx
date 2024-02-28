@@ -11,14 +11,7 @@ const App = () => {
   const onChange = useTheme((state) => state.onChange);
 
   useEffect(() => {
-    let theme: ThemeType = ThemeType.LIGHT;
-
-    try {
-      theme = ThemeType[localStorage.getItem("theme") as ThemeType];
-    } catch (err) {
-      theme = ThemeType.LIGHT;
-    }
-
+    const theme: ThemeType = ThemeType[localStorage.getItem("theme") as ThemeType] || ThemeType.LIGHT;
     onChange(theme);
     localStorage.setItem("theme", theme);
   }, []);
