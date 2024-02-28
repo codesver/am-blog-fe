@@ -56,13 +56,7 @@ const Flex = ({
   aligns = AlignContent.STRETCH,
 }: FlexProps) => {
   return (
-    <FlexContainer
-      direction={direction}
-      wrap={wrap}
-      justify={justify}
-      align={align}
-      aligns={aligns}
-    >
+    <FlexContainer $direction={direction} $wrap={wrap} $justify={justify} $align={align} $aligns={aligns}>
       {children}
     </FlexContainer>
   );
@@ -70,9 +64,11 @@ const Flex = ({
 
 export default React.memo(Flex);
 
-const FlexContainer = styled.div<Omit<FlexProps, "children">>`
+const FlexContainer = styled.div<{
+  [key in keyof Omit<FlexProps, "children"> as `$${key}`]: FlexProps[key];
+}>`
   display: flex;
-  flex-flow: ${(props) => `${props.direction} ${props.wrap}`};
-  justify-content: ${(props) => props.justify};
-  align-items: ${(props) => props.align};
+  flex-flow: ${(props) => `${props.$direction} ${props.$wrap}`};
+  justify-content: ${(props) => props.$justify};
+  align-items: ${(props) => props.$align};
 `;
