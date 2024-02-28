@@ -64,9 +64,11 @@ const Flex = ({
 
 export default React.memo(Flex);
 
-const FlexContainer = styled.div<{
+type FlexContainerProps = {
   [key in keyof Omit<FlexProps, "children"> as `$${key}`]: FlexProps[key];
-}>`
+};
+
+const FlexContainer = styled.div<FlexContainerProps>`
   display: flex;
   flex-flow: ${(props) => `${props.$direction} ${props.$wrap}`};
   justify-content: ${(props) => props.$justify};
