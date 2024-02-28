@@ -18,7 +18,7 @@ interface ThemeState {
   onChange: (theme: Theme) => void;
 }
 
-const useTheme = create<ThemeState>((set) => ({
+export const useTheme = create<ThemeState>((set) => ({
   theme: Theme.LIGHT,
   onSwitch: () => set((state) => ({ theme: state.theme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT })),
   onChange: (theme: Theme) => set({ theme }),
