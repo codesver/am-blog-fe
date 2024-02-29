@@ -1,5 +1,4 @@
 import axios from "axios";
-import Auth from "./Auth";
 import useAuth from "./Auth";
 
 export enum RestMethod {
