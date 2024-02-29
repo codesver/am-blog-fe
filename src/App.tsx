@@ -4,9 +4,9 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import TestPage from "./pages/TestPage";
 import { Role } from "./core/Auth";
 import useTheme, { ThemeType } from "./core/Theme";
+import useAuth from "./core/Auth";
 
 import "./App.css";
-import useAuth from "./core/Auth";
 
 const App = () => {
   const onChange = useTheme((state) => state.onChange);
