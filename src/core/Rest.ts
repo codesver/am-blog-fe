@@ -1,5 +1,6 @@
 import axios from "axios";
 import Auth from "./Auth";
+import useAuth from "./Auth";
 
 export enum RestMethod {
   GET = "get",
@@ -29,6 +30,7 @@ interface RestResponse {
 const BASE_URL = "http://localhost:8080";
 
 const Rest = (() => {
+  const user = useAuth((state) => state.user);
   async function send(request: RestRequest) {
     let response = {} as RestResponse;
 
@@ -43,13 +45,11 @@ const Rest = (() => {
           "Access-Control-Allow-Credentials": true,
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Headers": "Authorization",
-          Authorization: `Bearer ${Auth.info()?.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       })
       .then((res) => (response = { type: RestType.SUCCESS, data: res.data }))
-      .catch(
-        (err) => (response = { type: RestType.ERROR, data: err.response.data })
-      );
+      .catch((err) => (response = { type: RestType.ERROR, data: err.response.data }));
 
     return response;
   }

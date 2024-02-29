@@ -1,4 +1,5 @@
 import CryptoJS from "crypto-js";
+import { create } from "zustand";
 
 export enum Role {
   ADMIN = 0,
@@ -12,50 +13,50 @@ export interface User {
   expire: number;
 }
 
-const encode = (plain: object) => CryptoJS.AES.encrypt(JSON.stringify(plain), "SECRET_KEY").toString();
+interface AuthState {
+  user?: User;
+  login: (user: User) => void;
+  logout: () => void;
+  authenticated: () => boolean;
+  authorized: (role: Role) => boolean;
+}
 
-const decode = (cipher: string) => JSON.parse(CryptoJS.AES.decrypt(cipher, "SECRET_KEY").toString(CryptoJS.enc.Utf8));
+const useAuth = create<AuthState>((set, get) => {
+  const encode = (plain: object) => CryptoJS.AES.encrypt(JSON.stringify(plain), "SECRET_KEY").toString();
 
-const Auth = (() => {
-  const login = (user: User) => sessionStorage.setItem("user", encode(user));
+  const decode = (cipher: string) => JSON.parse(CryptoJS.AES.decrypt(cipher, "SECRET_KEY").toString(CryptoJS.enc.Utf8));
 
-  const logout = () => sessionStorage.removeItem("user");
-
-  const info = () => {
+  const getUser = () => {
     try {
-      const userSession = sessionStorage.getItem("user");
+      const userSession = localStorage.getItem("user");
+
       if (userSession) {
         const user = decode(userSession) as User;
+
         if (new Date().getTime() < user.expire) {
           return user;
         } else {
-          logout();
-          return undefined;
+          localStorage.removeItem("user");
         }
       }
     } catch (err) {
-      logout();
-      return undefined;
+      localStorage.removeItem("user");
     }
   };
 
-  const authenticated = () => {
-    const user = info();
-    return Boolean(user && new Date().getTime() < user.expire);
-  };
-
-  const authorized = (role: Role) => {
-    const user = info();
-    return user && user.role <= role;
-  };
-
   return {
-    login,
-    logout,
-    info,
-    authenticated,
-    authorized,
+    user: getUser(),
+    login: (user) => {
+      set({ user });
+      localStorage.setItem("user", encode(user));
+    },
+    logout: () => {
+      set({ user: undefined });
+      localStorage.removeItem("user");
+    },
+    authenticated: () => Boolean(get().user && new Date().getTime() < get().user!.expire),
+    authorized: (role) => Boolean(get().user && get().user!.role <= role),
   };
-})();
+});
 
-export default Auth;
+export default useAuth;
