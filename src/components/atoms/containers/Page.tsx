@@ -1,6 +1,6 @@
 import React, { HTMLAttributes } from "react";
 import styled from "styled-components";
-import { Theme, useTheme } from "../../../resources/Theme";
+import { Theme, useTheme } from "../../../core/Theme";
 
 interface PageProps extends HTMLAttributes<HTMLDivElement> {}
 

@@ -3,7 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import TestPage from "./pages/TestPage";
 import Auth, { Role } from "./core/Auth";
-import { ThemeType, useTheme } from "./resources/Theme";
+import { ThemeType, useTheme } from "./core/Theme";
 
 import "./App.css";
 

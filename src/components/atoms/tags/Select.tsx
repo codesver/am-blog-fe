@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Theme, useTheme } from "../../../resources/Theme";
+import { Theme, useTheme } from "../../../core/Theme";
 
 interface Option {
   value: string;
