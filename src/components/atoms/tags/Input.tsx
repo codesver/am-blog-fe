@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Theme, ThemeType, useTheme } from "../../../core/Theme";
+import useTheme, { Theme, ThemeType } from "../../../core/Theme";
 
 export enum InputType {
   TEXT = "text",

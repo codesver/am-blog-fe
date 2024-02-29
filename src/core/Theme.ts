@@ -40,7 +40,7 @@ interface ThemeState {
   onChange: (theme: ThemeType) => void;
 }
 
-export const useTheme = create<ThemeState>((set) => ({
+const useTheme = create<ThemeState>((set) => ({
   theme: LightTheme,
   onSwitch: () =>
     set((state) => {
@@ -62,3 +62,5 @@ export const useTheme = create<ThemeState>((set) => ({
     }
   },
 }));
+
+export default useTheme;
