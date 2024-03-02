@@ -1,3 +1,12 @@
+export default interface Flex {
+  flex?: boolean;
+  direction?: FlexDirection;
+  wrap?: FlexWrap;
+  justify?: JustifyContent;
+  align?: AlignItems;
+  aligns?: AlignContent;
+}
+
 export enum FlexDirection {
   ROW = "row",
   COLUMN = "column",
@@ -33,13 +42,4 @@ export enum AlignContent {
   BETWEEN = "between",
   AROUND = "around",
   EVENLY = "evenly",
-}
-
-export default interface Flex {
-  flex?: boolean;
-  direction?: FlexDirection;
-  wrap?: FlexWrap;
-  justify?: JustifyContent;
-  align?: AlignItems;
-  aligns?: AlignContent;
 }
