@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
-import TestPage from "./pages/TestPage";
 import { Role } from "./core/Auth";
 import useTheme, { ThemeType } from "./core/Theme";
 import useAuth from "./core/Auth";
@@ -21,7 +20,6 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/test" element={<TestPage />} />
         <Route path="/admin" element={authorized(Role.ADMIN) ? <></> : <Navigate to={"/login"} />} />
       </Routes>
     </BrowserRouter>
