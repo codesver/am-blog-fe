@@ -1,5 +1,5 @@
 import axios from "axios";
-import useAuth from "./Auth";
+import Auth from "./Auth";
 
 export enum RestMethod {
   GET = "get",
@@ -14,6 +14,9 @@ interface RestRequest {
   resource: `/${string}`;
   params?: { [key: string]: string };
   body?: object;
+  headers?: {
+    [key: string]: string;
+  };
 }
 
 export enum RestType {
@@ -29,7 +32,7 @@ interface RestResponse {
 const BASE_URL = "http://localhost:8080";
 
 const Rest = (() => {
-  const user = useAuth((state) => state.user);
+  const user = Auth.user();
   async function send(request: RestRequest) {
     let response = {} as RestResponse;
 
