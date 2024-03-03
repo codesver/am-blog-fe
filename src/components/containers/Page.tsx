@@ -14,7 +14,7 @@ const Page = ({ className, children, ...props }: PageProps) => {
   );
 };
 
-export default React.memo(Page);
+export default React.memo(Page); 
 
 interface PageContainerProps {
   $theme: Theme;
