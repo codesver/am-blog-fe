@@ -1,5 +1,4 @@
 import CryptoJS from "crypto-js";
-import { create } from "zustand";
 
 export enum Role {
   ADMIN = 0,
@@ -8,20 +7,13 @@ export enum Role {
 
 export interface User {
   username: string;
+  name: string;
   role: Role;
   token: string;
   expire: number;
 }
 
-interface AuthState {
-  user?: User;
-  login: (user: User) => void;
-  logout: () => void;
-  authenticated: () => boolean;
-  authorized: (role: Role) => boolean;
-}
-
-const useAuth = create<AuthState>((set, get) => {
+const Auth = (() => {
   const encode = (plain: object) => CryptoJS.AES.encrypt(JSON.stringify(plain), "SECRET_KEY").toString();
 
   const decode = (cipher: string) => JSON.parse(CryptoJS.AES.decrypt(cipher, "SECRET_KEY").toString(CryptoJS.enc.Utf8));
@@ -45,18 +37,18 @@ const useAuth = create<AuthState>((set, get) => {
   };
 
   return {
-    user: getUser(),
-    login: (user) => {
-      set({ user });
-      localStorage.setItem("user", encode(user));
+    user: getUser,
+    login: (user: User) => localStorage.setItem("user", encode(user)),
+    logout: () => localStorage.removeItem("user"),
+    authenticated: () => {
+      const user = getUser();
+      return Boolean(user && new Date().getTime() < user!.expire);
     },
-    logout: () => {
-      set({ user: undefined });
-      localStorage.removeItem("user");
+    authorized: (role: Role) => {
+      const user = getUser();
+      return Boolean(user && user!.role <= role);
     },
-    authenticated: () => Boolean(get().user && new Date().getTime() < get().user!.expire),
-    authorized: (role) => Boolean(get().user && get().user!.role <= role),
   };
-});
+})();
 
-export default useAuth;
+export default Auth;

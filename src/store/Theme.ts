@@ -15,8 +15,8 @@ export interface Theme {
 export const LightTheme: Theme = {
   type: ThemeType.LIGHT,
   colors: {
-    base: "#ffffff",
-    unbase: "#191919",
+    base: "#d0d0d0",
+    unbase: "#2f2f2f",
     red: "#d44c47",
     green: "#448361",
     blue: "#337ea9",
@@ -26,8 +26,8 @@ export const LightTheme: Theme = {
 export const DarkTheme: Theme = {
   type: ThemeType.DARK,
   colors: {
-    base: "#191919",
-    unbase: "#ffffff",
+    base: "#2f2f2f",
+    unbase: "#d0d0d0",
     red: "#df5452",
     green: "#529e72",
     blue: "#5e87c9",
