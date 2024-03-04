@@ -24,17 +24,25 @@ export enum RestType {
   ERROR,
 }
 
-interface RestResponse {
-  type: RestType;
-  data: object;
+interface RestSuccessResponse<T> {
+  type: RestType.SUCCESS;
+  data: T;
 }
+
+interface RestErrorResponse {
+  type: RestType.ERROR;
+  data: string;
+}
+
+type RestResponse<T> = RestSuccessResponse<T> | RestErrorResponse;
 
 const BASE_URL = "http://localhost:8080";
 
 const Rest = (() => {
   const user = Auth.user();
-  async function send(request: RestRequest) {
-    let response = {} as RestResponse;
+
+  const send = async <T>(request: RestRequest) => {
+    let response = {} as RestResponse<T>;
 
     await axios
       .request({
@@ -50,21 +58,15 @@ const Rest = (() => {
           Authorization: `Bearer ${user?.token}`,
         },
       })
-      .then((res) => (response = { type: RestType.SUCCESS, data: res.data }))
-      .catch((err) => (response = { type: RestType.ERROR, data: err.response.data }));
+      .then((res) => (response = { type: RestType.SUCCESS, data: res.data as T }))
+      .catch((err) => (response = { type: RestType.ERROR, data: err.response.data as string }));
 
     return response;
-  }
+  };
 
-  async function sends(requests: RestRequest[]) {
-    let responses = [] as RestResponse[];
+  // TODO: Promise.all 을 사용하는 병렬처리 함수 만들기
 
-    await Promise.all(requests.map(send)).then((ress) => (responses = ress));
-
-    return responses;
-  }
-
-  return { send, sends };
+  return { send };
 })();
 
 export default Rest;

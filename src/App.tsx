@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
-import useTheme, { ThemeType } from "./core/Theme";
+import useTheme, { ThemeType } from "./store/Theme";
 import Auth, { Role } from "./core/Auth";
 
 import LoginPage from "./pages/LoginPage";

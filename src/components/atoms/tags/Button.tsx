@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import useTheme, { Theme } from "../../../core/Theme";
+import useTheme, { Theme } from "../../../store/Theme";
 
 export enum ButtonType {
   NORMAL,
