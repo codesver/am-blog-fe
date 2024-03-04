@@ -48,6 +48,7 @@ const LoginPage = () => {
 
           Auth.login({
             username: data.username,
+            name: data.name,
             role: Role[data.role],
             token: data.token,
             expire: data.expire,

@@ -7,6 +7,7 @@ export enum Role {
 
 export interface User {
   username: string;
+  name: string;
   role: Role;
   token: string;
   expire: number;
